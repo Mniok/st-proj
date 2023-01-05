@@ -153,7 +153,7 @@
 	mounted() {
 		console.log('mounted');
 		
-		axios.get('https://api.github.com/repos/statisticspoland/sdg-indicators-pl/contents/api/v1/krajowe/zamieszkanie_k.json')
+		/*axios.get('https://api.github.com/repos/statisticspoland/sdg-indicators-pl/contents/api/v1/krajowe/zamieszkanie_k.json')
 			.then((response) => {
 				console.log('1. link .json');
 				console.log('response:');
@@ -167,10 +167,11 @@
 				//always executed
 				console.log('finally');
 			});
+		*/
 			
 		axios.get('https://api.github.com/repos/statisticspoland/sdg-indicators-pl/git/blobs/9b66f28f696e971e7656f7852c61a9f5feaa748c')
 			.then((response) => {
-				console.log('2. git_url');
+				/*console.log('2. git_url');
 				console.log('response:');
 				console.log(response);
 				
@@ -183,7 +184,11 @@
 				
 				console.log('decoeURI:');
 				console.log(decodeURIComponent(escape(window.atob( response.data.content )))); // z https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
+				*/
 				
+				var decodedData = decodeURIComponent(escape(window.atob( response.data.content )));
+				var dataObjectTree = JSON.parse(decodedData);
+				console.log(dataObjectTree);
 			})
 			.catch((error) => {
 				console.log('error:');
