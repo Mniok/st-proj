@@ -2,44 +2,61 @@
   <v-container>
     <br><br>
     <p>{{ metadata.name }}</p>
+    <LineChart :chartData="chartDataProcessed"/>
+    <span>test</span>
   </v-container>
 </template>
 
 <script>
-	import axios from 'axios';
+import LineChart from './LineChart';
 
   export default {
     name: 'ChartContainer',
 
     props: ['metadata', 'chartData'],
+    //metadata: "nazwa", "definicja", "cel", "priorytet", "jednostka", "metodologia", "wymiary", "zrodlo", "uwagi", "czestotliwosc"
+
+    components: {
+      LineChart,
+    },
 
     data: () => ({
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader',
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify',
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify',
-        },
-      ],
+      showChart: false,
+      chartDataProcessed: {
+        labels: [], //X axis
+        datasets: [],
+        // datasets: [{ label:"", data:[], fill:bool, borderColor:"", tension: 0.1 }]
+      }
     }),
 	
 	  mounted() {
-      console.log('chartcontainer mounted');
-
-      console.log(this.chartData);
+      console.log('chartcontainer mounted (data not in props yet btw)');
 	  },
 
     updated() {
       console.log('chartcontiner updated');
+      this.showChart = false;
       console.log(this.metadata);
       console.log(this.chartData);
+      console.log(',');
+      this.chartDataProcessed.labels = Object.keys(Object.values(this.chartData)[0]);  //get Y axis labels like ["2011", "2012", ...]
+      //var datasetLabels = Object.keys(this.chartData); //like ["kobiety", "mężczyźni"]
+      console.log(this.chartDataProcessed.labels);
+      var datasetsData = Object.entries(this.chartData); //with keys included to be used as dataset labels
+      console.log(datasetsData);
+
+      datasetsData.forEach(dataset => {
+        console.log(dataset);
+        var newDataset = {
+          label: dataset[0],
+          data: Object.values(dataset[1]),
+        };
+        this.chartDataProcessed.datasets.push(newDataset);
+      });
+
+      console.log("assigned values to chartDataProcessed");
+      console.log(this.chartDataProcessed);
+      this.showChart=true;
     }
   }
 </script>

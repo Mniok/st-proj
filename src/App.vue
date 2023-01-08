@@ -36,10 +36,6 @@ export default {
       console.log('App.updateChart()');
       this.chartMetadata = metadata;
       this.chartData = data;
-      console.log(metadata);
-      console.log(this.chartMetadata);
-      console.log(data);
-      console.log(this.chartData);
     }
   }
 };
