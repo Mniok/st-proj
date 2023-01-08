@@ -188,6 +188,7 @@
 				
 				var decodedData = decodeURIComponent(escape(window.atob( response.data.content )));
 				var dataObjectTree = JSON.parse(decodedData);
+        console.log('Pobierz wskaźniki krajowe dotyczące miasta i wsi - zamieszkanie_k.json - https://api.github.com/repos/statisticspoland/sdg-indicators-pl/git/blobs/9b66f28f696e971e7656f7852c61a9f5feaa748c');
 				console.log(dataObjectTree);
 			})
 			.catch((error) => {
@@ -196,8 +197,50 @@
 			})
 			.finally(() => {
 				//always executed
-				console.log('finally');
+				console.log('_______');
 			});
+
+
+      // // // other endpoints
+      axios.get('https://api.github.com/repos/statisticspoland/sdg-indicators-pl/contents/api/v1/globalne/plec.json')
+			.then((response) => {
+				var decodedData = decodeURIComponent(escape(window.atob( response.data.content )));
+				var dataObjectTree = JSON.parse(decodedData);
+        console.log('globalne i krajowe dotyczące płci - https://api.github.com/repos/statisticspoland/sdg-indicators-pl/contents/api/v1/globalne/plec.json');
+				console.log(dataObjectTree);
+			})
+			.catch((error) => {
+				console.log('error:');  //apparrently endpoint not found - 404
+				console.log(error);
+			})
+
+
+      axios.get('https://api.github.com/repos/statisticspoland/sdg-indicators-pl/contents/api/v1/zamieszkanie.json')
+			.then((response) => {
+				var decodedData = decodeURIComponent(escape(window.atob( response.data.content )));
+				var dataObjectTree = JSON.parse(decodedData);
+        console.log('Pobierz wskaźniki krajowe dotyczące miasta i wsi - https://api.github.com/repos/statisticspoland/sdg-indicators-pl/contents/api/v1/zamieszkanie.json');
+				console.log(dataObjectTree);
+			})
+			.catch((error) => {
+				console.log('error:');
+				console.log(error);
+			})
+
+      // SPECIFICATION
+      // plan - implement krajowe zamieszkanie, check globalne after finished since they are structured the same, if works - include switch for krajowe / globalne i krajowe
+      // chart has:
+      // select for wskaźnik identifier eg. 3-1-f - with select text being metadane.nazwa eg. "3.1.f Liczba zgonów w wyniku przewlekłej choroby dróg oddechowych na 100 tys. ludności",
+      // shows other metadata too
+      // shows "jednostka" on graph Y axis
+      // shows years on graph X axis
+      // 2nd select for graph in "dane" for a given wskaźnik eg. "wg płci"
+      // graph has a seperate line for every object in that eg. "ogółem", "mężczyźni", "kobiety"
+      // (which are arrays of datapoints with year as key and number as value, typically %)
+      // if "jednostka" contains %, scale goes up to 100%
+      // graph line colors depend on line key name eg. "kobiety" is pinkish, "mężczyźni" is blue, "ogółem" is dark green
+      // for any unusual titles not in list - uses a progression of colors based on line number
+      // side panel on right contains checkboxes - allows for toggling visibility of lines
 	}
   }
 </script>
