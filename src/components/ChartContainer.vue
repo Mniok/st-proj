@@ -1,9 +1,11 @@
 <template>
   <v-container>
-    <br><br>
-    <p>{{ metadata.name }}</p>
-    <LineChart :chartData="chartDataProcessed" :yAxisTitle="metadata.jednostka"/>
-    <span>test</span>
+    <LineChart
+      :chartData="chartDataProcessed"
+      :yAxisTitle="metadata.jednostka"
+      :chartTitle="metadata.nazwa"
+      :chartSubtitle="selectedDatasetName"
+    />
   </v-container>
 </template>
 
@@ -13,7 +15,7 @@ import LineChart from './LineChart';
   export default {
     name: 'ChartContainer',
 
-    props: ['metadata', 'chartData'],
+    props: ['metadata', 'chartData', 'selectedDatasetName'],
     //metadata: "nazwa", "definicja", "cel", "priorytet", "jednostka", "metodologia", "wymiary", "zrodlo", "uwagi", "czestotliwosc"
 
     components: {

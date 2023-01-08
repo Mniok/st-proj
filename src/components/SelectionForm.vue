@@ -45,15 +45,17 @@
           var indicatorData = indicatorsDataArray[3]; //."1-1-a"    // !!!!!!!!!! replace with selects
         var chartMetadata = indicatorData.metadane[0]; // .metadane."0" -> {"nazwa", "definicja", "jednostka", ...}
         var chartDataGroups = indicatorData.dane[0]; //.dane."0" -> { "miasto/wieś": [...], "wg płci": [...] }
-        chartDataGroups = Object.entries(chartDataGroups); // -> [["miasto/wieś", [values]], ["wg plci", [...]]]
-          var chartData = chartDataGroups[0][1][0] //group0("miasto/wieś").values."0" -> array ["miasto", "wieś"]  //!!!!!!!!!! replace with select
+        //chartDataGroups = Object.entries(chartDataGroups); // -> [["miasto/wieś", [values]], ["wg plci", [...]]]
+        console.log(chartDataGroups);
+          /**/ var selectedDataset = "wg płci";   // !!!!!!!!!!!!!!!!!!
+          var chartData = chartDataGroups[selectedDataset][0] //group0("miasto/wieś").values."0" -> array ["miasto", "wieś"]  //!!!!!!!!!! replace with select
 
         for (const key in chartData) {
           chartData[key] = chartData[key][0]; // eg. "kobiety"."0".[array] -> "kobiety".[array]
         }
 
         console.log('emit:');
-        this.$emit('updateChart', chartMetadata, chartData);
+        this.$emit('updateChart', chartMetadata, chartData, selectedDataset);
 			})
 			.catch((error) => {
 				console.log('axios error:');

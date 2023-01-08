@@ -5,15 +5,14 @@
       :data="chartData"
       :options="chartOptions"
     />
-    {{ chartData.datasets }}
   </v-container>
 </template>
 
 <script>
 import { Line as LineChartGenerator} from 'vue-chartjs';
-import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, LinearScale, CategoryScale  } from 'chart.js';
+import { Chart as ChartJS, Title, SubTitle, Tooltip, Legend, LineElement, PointElement, LinearScale, CategoryScale  } from 'chart.js';
 
-ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, LinearScale, CategoryScale )
+ChartJS.register(Title, SubTitle, Tooltip, Legend, LineElement, PointElement, LinearScale, CategoryScale )
 
 const xAxisTitle = "rok";
 
@@ -46,6 +45,8 @@ const xAxisTitle = "rok";
         datasets: Array,
       },
       yAxisTitle: String,
+      chartTitle: String,
+      chartSubtitle: String,
     },
 
     computed: {
@@ -63,6 +64,20 @@ const xAxisTitle = "rok";
                 display: true,
                 text: this.yAxisTitle,
               }
+            }
+          },
+
+          plugins: {
+            title: {
+              display: true,
+              text: this.chartTitle,
+            },
+            subtitle: {
+              display: true,
+              text: this.chartSubtitle,
+            },
+            legend: {
+              position: 'right',
             }
           }
         }
@@ -86,6 +101,7 @@ const xAxisTitle = "rok";
       console.log(this.chartData.datasets.length);
       console.log('debugdata:');
       console.log(this.debugChartData);
+      console.log(this.chartTitle);
     }
   }
 </script>

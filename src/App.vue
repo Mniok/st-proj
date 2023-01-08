@@ -9,7 +9,11 @@
     </v-app-bar>
 
     <v-main>
-      <ChartContainer :metadata="chartMetadata" :chartData="chartData"/>
+      <ChartContainer
+        :metadata="chartMetadata"
+        :chartData="chartData"
+        :selectedDatasetName="selectedDatasetName"
+      />
     </v-main>
   </v-app>
 </template>
@@ -29,13 +33,15 @@ export default {
   data: () => ({
     chartMetadata: [],
     chartData: [],
+    selectedDatasetName: "",
   }),
 
   methods: {
-    updateChart(metadata, data) {
+    updateChart(metadata, data, selectedDataset) {
       console.log('App.updateChart()');
       this.chartMetadata = metadata;
       this.chartData = data;
+      this.selectedDatasetName = selectedDataset;
     }
   }
 };
