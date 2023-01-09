@@ -1,6 +1,22 @@
 <template>
   <span>
-    search form goes here
+    <v-form>
+      <v-row>
+        <v-select
+          label="Wskaźnik"
+          v-model="selectedIndicatorKey"
+          :items="indicatorSelectItems"
+          outlined
+        />
+        <v-select
+          label="Wykres"
+          v-model="selectedChartDatasetKey"
+          :items="chartDatasetSelectItems"
+          @change="updateChart"
+          outlined
+        />
+      </v-row>
+    </v-form>
   </span>
 </template>
 
@@ -13,34 +29,34 @@
     emits: ['updateChart'],
 
     data: () => ({
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader',
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify',
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify',
-        },
-      ],
+      dataFromAPI: {},
+      selectedIndicatorKey: "",
+      selectedChartDatasetKey: "",
     }),
-	
-	mounted() {
-		console.log('selection form mounted');
-			
-		axios.get('https://api.github.com/repos/statisticspoland/sdg-indicators-pl/git/blobs/9b66f28f696e971e7656f7852c61a9f5feaa748c')
-			.then((response) => {
-				var decodedData = decodeURIComponent(escape(window.atob( response.data.content )));
-				var dataObjectTree = JSON.parse(decodedData);
-        console.log('Pobierz wskaźniki krajowe dotyczące miasta i wsi - zamieszkanie_k.json - https://api.github.com/repos/statisticspoland/sdg-indicators-pl/git/blobs/9b66f28f696e971e7656f7852c61a9f5feaa748c');
-				console.log(dataObjectTree);
 
+    methods: {
+      readFromAPI() {
+        axios.get('https://api.github.com/repos/statisticspoland/sdg-indicators-pl/git/blobs/9b66f28f696e971e7656f7852c61a9f5feaa748c')
+        .then((response) => {
+          var decodedData = decodeURIComponent(escape(window.atob( response.data.content )));
+          this.dataFromAPI = JSON.parse(decodedData);
+          console.log(this.dataFromAPI);
+        })
+        .catch((error) => {
+          console.log('Wystąpił błąd:');
+          console.log(error);
+        })
+
+      },
+      selectIndicactor(indicatorKey) {
+
+      },
+      selectChart(chartKey) {
+
+      },
+      updateChart(){
         // retrieve metadata and data from api response to pass to chart
-        var indicatorsData = Object.values(dataObjectTree)[0]; //"zamieszkanie_k"."0"
+        var indicatorsData = Object.values(this.dataFromAPI)[0]; //"zamieszkanie_k"."0"
         var indicatorsDataArray = indicatorsData.map(indicator => Object.values(Object.values(indicator)))[0];
           var indicatorData = indicatorsDataArray[3]; //."1-1-a"    // !!!!!!!!!! replace with selects
         var chartMetadata = indicatorData.metadane[0]; // .metadane."0" -> {"nazwa", "definicja", "jednostka", ...}
@@ -55,15 +71,69 @@
         }
 
         console.log('emit:');
+        console.log(chartMetadata);
+        console.log(chartData);
+        console.log(selectedDataset);
         this.$emit('updateChart', chartMetadata, chartData, selectedDataset);
-			})
-			.catch((error) => {
-				console.log('axios error:');
-				console.log(error);
-			})
-			/*.finally(() => {
-				//always executed
-			});*/
-	}
+      }
+    },
+
+    computed: {
+      indicatorSelectItems() {
+        //console.log('INDICATOR SELECT ITEMS');
+        //console.log(this.dataFromAPI);
+        //console.log(Object.values(this.dataFromAPI));
+        //console.log(Object.values(this.dataFromAPI)[0]);
+        if (!Object.values(this.dataFromAPI)[0])
+          return [];
+        else {
+          var indicatorsData = Object.values(this.dataFromAPI)[0][0]; //["zamieszkanie_k"."0"]."0" //Object.values returns array of 1 element
+          //console.log(indicatorsData);
+          var itemValues = Object.keys(indicatorsData);
+          var itemTexts = Object.values(indicatorsData).map(
+            value => value.metadane[0].nazwa
+          );
+          //console.log('itemvals, itemtexts');
+          //console.log(itemValues);
+          //console.log(itemTexts);
+
+          var items = [];
+          for (var i=0; i<itemValues.length; i++) {
+            items.push({
+              value: itemValues[i],
+              text: itemTexts[i]
+            });
+          }
+
+          //console.log(items);
+          return items;
+        }
+      },
+      chartDatasetSelectItems() {
+        console.log('CHART DATASET SELECT ITEMS');
+        console.log(this.selectedIndicatorKey);
+        const up = this.selectedIndicatorKey;
+        if (!Object.values(this.dataFromAPI)[0] || !this.selectedIndicatorKey)
+          return [];
+        else {
+          // retrieve metadata and data from api response to pass to chart
+          var indicatorData = Object.values(this.dataFromAPI)[0][0][this.selectedIndicatorKey]; //("zamieszkanie_k"."0")[0]]."1-1-a"
+          console.log(indicatorData);
+          var chartDataGroups = indicatorData.dane[0]; //.dane."0" -> { "miasto/wieś": [...], "wg płci": [...] }
+          //chartDataGroups = Object.entries(chartDataGroups); // -> [["miasto/wieś", [values]], ["wg plci", [...]]]
+          console.log('chart data groups')
+          console.log(chartDataGroups);
+          const items = Object.keys(chartDataGroups); //text and value are the same here
+          console.log(items);
+          return items;
+        }
+      },
+    },
+	
+    mounted() {
+      console.log('selection form mounted');
+      this.readFromAPI();
+
+    }
   }
 </script>
