@@ -61,56 +61,6 @@ import LineChart from './LineChart';
           //"miasto/wieś"
           case "miasto": return isDot ? "#546e7a" : "#78909c"; //blue-gray
           case "wieś": return isDot ? "#996633" : "#cc9900"; //light brown
-
-          /*
-          //"wg grup wieku"
-          case "15-19 lat": return "#ff66cc";
-          case "20-29 lat": return "#ff66cc";
-          case "30-39 lat": return "#ff66cc";
-          case "40-49 lat": return "#ff66cc";
-          case "50-59 lat": return "#ff66cc";
-          case "60-69 lat": return "#ff66cc";
-          case "70-79 lat": return "#ff66cc";
-          case "80 lat i więcej": return "cc6699";
-          case "0-4 lata": return "#ff66cc";
-          case "5-9 lat": return "#ff66cc";
-          case "10-14 lat": return "#ff66cc";
-          //"wg grup wieku"
-          case "w wieku 16-24 lata": return "#ff66cc";
-          case "w wieku 25-34 lata": return "#ff66cc";
-          case "w wieku 35-44 lata": return "#ff66cc";
-          case "w wieku 45-54 lata": return "#ff66cc";
-          case "w wieku 55-64 lata": return "#ff66cc";
-          case "w wieku 65-74 lata": return "#ff66cc";
-          //"wg grup wieku"
-          case "osoby w wieku 0-17 lat": return "#ff66cc";
-          case "osoby w wieku 18-64 lata": return "#ff66cc";
-          case "osoby w wieku 65 lat i więcej": return "#ff66cc";
-
-          //"wg wykształcenia"
-          case "niższe": return "#ff66cc";
-          case "średnie": return "#ff66cc";
-          case "wyższe": return "#ff66cc";
-
-          //wg poziomu wykształcenia głowy gospodarstwa domowego"
-          case "co najwyżej gimnazjalne": return isDot ? "ff33cc" : "#ff66cc";
-          case "zasadnicze zawodowe": return isDot ? "ff33cc" : "#ff66cc";
-          //case "średnie"
-          //case "wyższe"
-
-          //"wg stanu zawodowego osób"
-          case "aktywni zawodowo": return isDot ? "ff33cc" : "#ff66cc";
-          case "pracujący": return isDot ? "ff33cc" : "#ff66cc";
-          case "bezrobotni": return isDot ? "ff33cc" : "#ff66cc";
-          case "bierni zawodowo": return isDot ? "ff33cc" : "#ff66cc";
-
-          //"wg grup społ.-ekonom. gospodarstw domowych"
-          case "pracownicy": return isDot ? "ff33cc" : "#ff66cc";
-          case "rolnicy": return isDot ? "ff33cc" : "#ff66cc";
-          case "pracujący na własny rachunek": return isDot ? "ff33cc" : "#ff66cc";
-          case "emeryci": return isDot ? "ff33cc" : "#ff66cc";
-          case "renciści": return isDot ? "ff33cc" : "#ff66cc";
-          */
         }
 
         return colors[this.chartDataProcessed.datasets.length % colors.length];
@@ -128,7 +78,7 @@ import LineChart from './LineChart';
       }
       console.log('chartcontiner updated');
       this.showChart = false;
-      console.log(this.metadata);
+      //console.log(this.metadata);
       console.log(this.chartData);
       console.log(',');
       this.chartDataProcessed.labels = Object.keys(Object.values(this.chartData)[0]);  //get Y axis labels like ["2011", "2012", ...]
@@ -139,7 +89,7 @@ import LineChart from './LineChart';
 
       this.chartDataProcessed.datasets = [];
       datasetsData.forEach(dataset => {
-        console.log(dataset);
+        //console.log(dataset);
         var newDataset = {
           label: dataset[0],
           data: Object.values(dataset[1]),

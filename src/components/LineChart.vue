@@ -35,7 +35,18 @@ const xAxisTitle = "rok";
             }
           ],
           // datasets: [{ label:"", data:[], fill:bool, borderColor:"", tension: 0.1 }]
-        }
+        },
+        /*loadedChartData: {
+          labels: [], //X axis
+          datasets: [
+            {
+              label: "",
+              data: [],
+              backgroundColor: "",
+              borderColor: "",
+            }
+          ],
+        }*/
       }
     },
 
@@ -85,23 +96,29 @@ const xAxisTitle = "rok";
     },
 
     mounted() {
-      console.log('linechart mounted');
-      console.log(this.chartData);
+      //console.log('linechart mounted');
+      //console.log(this.chartData);
       this.showChart = true;
-      console.log(!!this.chartData && this.showChart);
-      console.log('debugdata:');
-      console.log(this.debugChartData);
+      //console.log(!!this.chartData && this.showChart);
+      //console.log('debugdata:');
+      //console.log(this.debugChartData);
     },
 
-    updated() {
-      console.log('linechart updated');
-      console.log(this.chartData);
+    /*updated() {
+      console.log('linechart updated updated');
+      //this.showChart = false;
+      this.loadedChartData = this.chartData;
+      console.log(this.loadedChartData);
+      console.log(this.loadedChartData.datasets.length);
+      this.loadedChartData = this.debugChartData;
       this.showChart = true;
-      console.log(!!this.chartData && this.showChart);
-      console.log(this.chartData.datasets.length);
-      console.log('debugdata:');
-      console.log(this.debugChartData);
-      console.log(this.chartTitle);
-    }
+      //console.log(!!this.chartData && this.showChart);
+      //console.log(this.chartData.datasets.length);
+      //console.log('debugdata:');
+      //console.log(this.debugChartData);
+      //console.log(this.chartTitle);
+      //this.debugChartData.labels[2] += "oo";
+      //this.debugChartData.datasets[0].data[2] *= 1.3;
+    }*/
   }
 </script>

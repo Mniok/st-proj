@@ -55,26 +55,31 @@
 
       },
       updateChart(){
+        console.log("SELECTED " + this.selectedIndicatorKey + " AND " + this.selectedChartDatasetKey);
+
         // retrieve metadata and data from api response to pass to chart
-        var indicatorsData = Object.values(this.dataFromAPI)[0]; //"zamieszkanie_k"."0"
-        var indicatorsDataArray = indicatorsData.map(indicator => Object.values(Object.values(indicator)))[0];
-          var indicatorData = indicatorsDataArray[3]; //."1-1-a"    // !!!!!!!!!! replace with selects
+        var indicatorsData = Object.values(this.dataFromAPI)[0][0]; //["zamieszkanie_k"."0"]."0"
+        //console.log(indicatorsData);
+        //console.log(this.selectedIndicatorKey);
+        //console.log(indicatorsData[this.selectedIndicatorKey]);
+        //var indicatorsDataArray = indicatorsData.map(indicator => Object.values(Object.values(indicator)))[0];
+        //var indicatorData = indicatorsDataArray[3]; //."1-1-a"
+        var indicatorData = indicatorsData[this.selectedIndicatorKey];
         var chartMetadata = indicatorData.metadane[0]; // .metadane."0" -> {"nazwa", "definicja", "jednostka", ...}
         var chartDataGroups = indicatorData.dane[0]; //.dane."0" -> { "miasto/wieś": [...], "wg płci": [...] }
         //chartDataGroups = Object.entries(chartDataGroups); // -> [["miasto/wieś", [values]], ["wg plci", [...]]]
-        console.log(chartDataGroups);
-          /**/ var selectedDataset = "wg płci";   // !!!!!!!!!!!!!!!!!!
-          var chartData = chartDataGroups[selectedDataset][0] //group0("miasto/wieś").values."0" -> array ["miasto", "wieś"]  //!!!!!!!!!! replace with select
+        //console.log(chartDataGroups);
+        var chartData = chartDataGroups[this.selectedChartDatasetKey][0] //group0("miasto/wieś").values."0" -> array ["miasto", "wieś"]
 
         for (const key in chartData) {
           chartData[key] = chartData[key][0]; // eg. "kobiety"."0".[array] -> "kobiety".[array]
         }
 
-        console.log('emit:');
-        console.log(chartMetadata);
+        //console.log('emit:');
+        //console.log(chartMetadata);
         console.log(chartData);
-        console.log(selectedDataset);
-        this.$emit('updateChart', chartMetadata, chartData, selectedDataset);
+        //console.log(this.selectedChartDatasetKey);
+        this.$emit('updateChart', chartMetadata, chartData, this.selectedChartDatasetKey);
       }
     },
 
@@ -105,7 +110,8 @@
             });
           }
 
-          //console.log(items);
+          console.log("indicatorSelect items");
+          console.log(items);
           return items;
         }
       },
