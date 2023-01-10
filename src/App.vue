@@ -19,6 +19,24 @@
         :selectedDatasetName="selectedDatasetName"
       />
     </v-main>
+    <v-footer color="grey lighten-1" class="mt-0 mb-0 pt-0 pb-0">
+      <v-container fluid class="mt-0 mb-0 pt-0 pb-0">
+        <v-row align="center">
+          <v-col class="d-flex justify-end" cols="12" sm="5">
+            <v-img
+              :src="require('./assets/apiLogo.png')"
+              max-width="120"
+            />
+          </v-col>
+          <v-col class="d-flex" cols="12" sm="7">
+            <v-card-text>
+              Serwis korzysta z danych udostępnianych przez API SDG GUS
+            </v-card-text>
+          </v-col>
+        </v-row>
+      </v-container>
+
+    </v-footer>
   </v-app>
 </template>
 
