@@ -63,6 +63,7 @@ const xAxisTitle = "rok";
     computed: {
       chartOptions() {
         return {
+          responsive: true,
           scales: {
             x: {
               title: {
@@ -86,6 +87,9 @@ const xAxisTitle = "rok";
             subtitle: {
               display: true,
               text: this.chartSubtitle,
+              padding: {
+                bottom: 16,
+              },
             },
             legend: {
               position: 'right',

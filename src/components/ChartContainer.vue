@@ -3,8 +3,8 @@
     <LineChart
       :chartData="chartDataProcessed"
       :yAxisTitle="metadata.jednostka"
-      :chartTitle="metadata.nazwa"
-      :chartSubtitle="selectedDatasetName"
+      :chartTitle="chartTitle"
+      :chartSubtitle="chartSubtitle"
     />
   </v-container>
 </template>
@@ -65,6 +65,31 @@ import LineChart from './LineChart';
 
         return colors[this.chartDataProcessed.datasets.length % colors.length];
       }
+    },
+
+    computed: {
+      chartTitle() {
+        return [
+          this.metadata.nazwa,
+          this.selectedDatasetName
+        ]
+      },
+      chartSubtitle() {
+        var subtitles = []
+        if (this.metadata['definicja'])
+          subtitles.push("definicja: " + this.metadata['definicja']);
+        //if (this.metadata['metodologia'])
+          //subtitles.push("metodologia: " + this.metadata['metodologia']);
+        if (this.metadata['cel'])
+          subtitles.push("cel: " + this.metadata['cel']);
+        if (this.metadata['priorytet'])
+          subtitles.push("priorytet: " + this.metadata['priorytet']);
+        if (this.metadata['uwagi'])
+          subtitles.push("uwagi: " + this.metadata['uwagi']);
+        if (this.metadata['zrodlo'])
+          subtitles.push("źródło: " + this.metadata['zrodlo']);
+        return subtitles;
+      },
     },
 	
 	  mounted() {

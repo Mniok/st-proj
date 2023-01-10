@@ -1,23 +1,28 @@
 <template>
-  <span>
-    <v-form>
-      <v-row>
-        <v-select
-          label="Wskaźnik"
-          v-model="selectedIndicatorKey"
-          :items="indicatorSelectItems"
-          outlined
-        />
-        <v-select
-          label="Wykres"
-          v-model="selectedChartDatasetKey"
-          :items="chartDatasetSelectItems"
-          @change="updateChart"
-          outlined
-        />
+  <v-form style="width:100%">
+    <v-container fluid>
+      <v-row class="mt-4">
+        <v-col class="d-flex" cols="12" sm="6">
+          <v-select
+            label="Wskaźnik"
+            v-model="selectedIndicatorKey"
+            :items="indicatorSelectItems"
+            dense outlined
+          />
+        </v-col>
+        <v-spacer/>
+        <v-col class="d-flex" cols="12" sm="6">
+          <v-select
+            label="Wykres"
+            v-model="selectedChartDatasetKey"
+            :items="chartDatasetSelectItems"
+            @change="updateChart"
+            dense outlined
+          />
+        </v-col>
       </v-row>
-    </v-form>
-  </span>
+    </v-container>
+  </v-form>
 </template>
 
 <script>
@@ -28,6 +33,8 @@
 
     emits: ['updateChart'],
 
+    props: ['endpoint'],
+
     data: () => ({
       dataFromAPI: {},
       selectedIndicatorKey: "",
@@ -36,7 +43,7 @@
 
     methods: {
       readFromAPI() {
-        axios.get('https://api.github.com/repos/statisticspoland/sdg-indicators-pl/git/blobs/9b66f28f696e971e7656f7852c61a9f5feaa748c')
+        axios.get(this.endpoint)
         .then((response) => {
           var decodedData = decodeURIComponent(escape(window.atob( response.data.content )));
           this.dataFromAPI = JSON.parse(decodedData);

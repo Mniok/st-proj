@@ -4,8 +4,12 @@
       app
       color="primary"
       dark
+      
     >
-      <SelectionForm @updateChart="updateChart"/>
+      <SelectionForm
+        :endpoint="APIEndpointURL"
+        @updateChart="updateChart"
+      />
     </v-app-bar>
 
     <v-main>
@@ -34,6 +38,7 @@ export default {
     chartMetadata: [],
     chartData: [],
     selectedDatasetName: "",
+    APIEndpointURL: "https://api.github.com/repos/statisticspoland/sdg-indicators-pl/git/blobs/9b66f28f696e971e7656f7852c61a9f5feaa748c",
   }),
 
   methods: {
