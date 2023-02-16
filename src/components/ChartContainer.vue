@@ -107,6 +107,18 @@ import LineChart from './LineChart';
       console.log(this.chartData);
       console.log(',');
       this.chartDataProcessed.labels = Object.keys(Object.values(this.chartData)[0]);  //get Y axis labels like ["2011", "2012", ...]
+
+          /* !!! */ //test cropping parts of dataset
+          /*console.warn('shenanigans');
+          this.chartDataProcessed.labels.shift();
+          this.chartDataProcessed.datasets.forEach((ds) => {
+            console.warn('ds');
+            console.log(ds);
+            console.log(ds[0]);
+            console.log(ds[0][1]);
+            delete ds['2010'];
+          });*/
+          /* !!! */
       //var datasetLabels = Object.keys(this.chartData); //like ["kobiety", "mężczyźni"]
       console.log(this.chartDataProcessed.labels);
       var datasetsData = Object.entries(this.chartData); //with keys included to be used as dataset labels
